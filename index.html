@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Portfólio de Matérias</title>
+</head>
+<body>
+
+    <h1>Portfólio de Matérias</h1>
+
+    <!-- Formulário de cadastro -->
+    <div>
+        <input type="text" id="nome" placeholder="Nome da matéria"><br><br>
+        <input type="text" id="professor" placeholder="Nome do professor"><br><br>
+        <input type="number" id="cargaHoraria" placeholder="Carga horária (horas)"><br><br>
+        <input type="number" id="nota" placeholder="Nota da matéria"><br><br>
+        <input type="text" id="aprendizado" placeholder="O que você aprendeu?"><br><br>
+        <input type="text" id="imagem" placeholder="Link da imagem (URL)"><br><br>
+
+        <button onclick="cadastrar()">Cadastrar</button>
+        <button onclick="buscar()">Buscar matérias</button>
+    </div>
+
+    <hr>
+
+    <!-- Onde as matérias cadastradas serão exibidas -->
+    <div id="lista"></div>
+
+    <script>
+        async function cadastrar() {
+            const nome = document.getElementById('nome').value
+            const professor = document.getElementById('professor').value
+            const cargaHoraria = Number(document.getElementById('cargaHoraria').value)
+            const nota = Number(document.getElementById('nota').value)
+            const aprendizado = document.getElementById('aprendizado').value
+            const imagem = document.getElementById('imagem').value
+
+            const materia = {
+                nome, professor, cargaHoraria, nota, aprendizado, imagem
+            }
+
+            await fetch('http://localhost:3000/materias', {
+                method: 'POST',
+                body: JSON.stringify(materia),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            // Dica: Limpa a lista e busca os dados atualizados logo após cadastrar
+            buscar()
+        }
+
+        async function buscar() {
+            const resposta = await fetch('http://localhost:3000/materias')
+            const materias = await resposta.json()
+
+            const lista = document.getElementById('lista')
+            lista.innerHTML = ''
+
+            materias.forEach((materia) => {
+                lista.innerHTML += `
+                <br>
+                <img width="200px" src="${materia.imagem}"> <br>
+                <strong>Matéria:</strong> ${materia.nome} <br>
+                <strong>Professor:</strong> ${materia.professor} <br>
+                <strong>Carga horária:</strong> ${materia.cargaHoraria} horas <br>
+                <strong>Nota:</strong> ${materia.nota} <br>
+                <strong>O que aprendi:</strong> ${materia.aprendizado} <br>
+                <hr>`
+            })
+        }
+    </script>
+</body>
+</html>

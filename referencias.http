@@ -1,0 +1,34 @@
+### Testar rota raiz
+GET http://localhost:3000/
+
+### Buscar todas as matérias (deve retornar [])
+GET http://localhost:3000/materias
+
+### Cadastrar primeira matéria
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "nome": "Programação Web",
+    "professor": "Marcos",
+    "cargaHoraria": 80,
+    "nota": 9.5,
+    "aprendizado": "Criei minha primeira API com Express",
+    "imagem": "https://link-de-uma-imagem.com/foto.jpg"
+}
+
+### Cadastrar segunda matéria
+POST http://localhost:3000/materias
+Content-Type: application/json
+
+{
+    "nome": "Banco de Dados",
+    "professor": "Ana",
+    "cargaHoraria": 60,
+    "nota": 10.0,
+    "aprendizado": "Aprendi comandos SQL e modelagem de dados",
+    "imagem": "https://link-de-uma-imagem.com/foto2.jpg"
+}
+
+### Buscar todas as matérias novamente (deve retornar as duas matérias)
+GET http://localhost:3000/materias
